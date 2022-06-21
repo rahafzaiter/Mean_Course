@@ -1,0 +1,38 @@
+<!-- <textarea rows="5" [value]="newPost" #postInput></textarea>
+<br>
+<button (click)="onAddPost(postInput)">Save Post</button>
+<p>{{newPost}}</p> -->
+
+<!-- way 2 -->
+<!-- <mat-card>
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="enteredTitle" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput rows="5" [(ngModel)]="enteredContent"></textarea>
+  </mat-form-field>
+  <button mat-raised-button (click)="onAddPost2()">Save Post</button>
+</mat-card>
+<p>{{ newPost2 }}</p> -->
+
+<!-- way 2 in binding without using even binding => using the form -->
+<mat-card>
+  <!-- we can add a reference to that form usinf # and calling a dicertive ngForm and add it to the parameter of the method -->
+  <!-- we can add form messages by going to form feilds -> error messages  -->
+  <form (submit)="onAddPost2(postForm)" #postForm="ngForm" >
+    <mat-form-field appearance="fill" >
+      <input matInput type="text" name="title" ngModel required #title="ngModel" placeholder="type the title here.."/>
+      <!-- to get accecc to the ngIf use reference ex: #title="ngModel" in the input -->
+      <mat-error *ngIf="title.invalid">please enter a form title</mat-error>
+      <!-- or  -->
+      <!-- <mat-error *ngIf="postForm.getControl('title').invalid">please enter a form title</mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <textarea matInput rows="4" name="content" ngModel required #content="ngModel" placeholder="type the text here.."></textarea>
+      <mat-error *ngIf="content.invalid">please add a form content</mat-error>
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="accent">Save Post</button>
+  </form>
+</mat-card>
