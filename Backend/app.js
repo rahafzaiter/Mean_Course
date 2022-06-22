@@ -1,8 +1,38 @@
-//
-
 const express = require("express");
-var bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
+
 const app = express();
+const Post = require('./models/post');
+
+const username = encodeURIComponent("rahafzaiter");
+const password = encodeURIComponent("1234");
+const cluster = "cluster0";
+
+console.log('username and password',username,password)
+mongoose.connect(
+    `mongodb+srv://${username}:${password}${cluster}.uwltqam.mongodb.net/?retryWrites=true&w=majority`
+)
+.then(() => {
+  console.log("Connected to database!");
+})
+.catch(() => {
+  console.log("Connection failed!");
+});
+
+// const uri=`mongodb+srv://${username}@${password}${cluster}.uwltqam.mongodb.net/?retryWrites=true&w=majority`
+// const uri = "mongodb+srv://rahafzaiter:1234@cluster0.uwltqam.mongodb.net/?retryWrites=true&w=majority"
+// async function run() {
+//   try {
+//     await mongoose.connect(uri);
+//   }
+//   catch{
+//      console.log('Failed')
+//   }
+// }
+
+// run().catch(console.log('Connection Failed'));
 
 // var cors = require('cors')
 
@@ -27,7 +57,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/posts', (req, res, next) => {
+app.get('/api/posts', (req, res, next) => {
   const posts = [
     {
       id: 1,
@@ -45,18 +75,26 @@ app.use('/api/posts', (req, res, next) => {
       content: 'this is a content C'
     },
   ]
+  // console.log('posts',posts)
   res.status(200).json({
     message: 'successfully recieved ',
     posts: posts
   })
 })
 
-app.post('/api/post',(req,res,next)=>{
-  const post=req.body;
-  console.log(post);
-  res.status(201).json({
-  message:'post successfully added',
-  })
+app.post('/api/post', (req, res, next) => {
+  // const post=req.body;
+
+  const post_added = new Post({
+    title: req.body.title,
+    content: req.body.content
   });
+  console.log('post for posts', post_added);
+  post_added.save();
+  res.status(201).json({
+    message: 'post successfully added'
+  })
+});
 
 module.exports = app;
+// Mv05D5905DVzdmrv

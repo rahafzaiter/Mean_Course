@@ -50,3 +50,9 @@ const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
+
+
+// username: rahafzaiter pass: FzmYGRwgrL7HyJgE
+// project2: xyz
+// user: rahaf pass: lVGcdrBneuk9fKZM
+console.log("Express server listening on port %d in %s mode", server.address().port, app.settings.env);
